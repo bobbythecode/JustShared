@@ -1,58 +1,48 @@
 import sys
+from model.entities.partnerEntity import *
 
 class ProcessRequest():
+    partner = PartnerRepo();
+    
     def __init__(self):
         return
     
     #-----------------------------------------------------------------
     
-    def read(self):
+    def read(self, name):
         try:
-            return "read"    
-        
+            f = self.partner.read(name)            
+            return f
+         
         except:
-            print("Unexpected error:", sys.exc_info()[0])
             raise
-            
-        finally:
-            return    
+             
 
     #-----------------------------------------------------------------
         
-    def create(self):
+    def create(self, name, slug, active, spread_sheet_path, image_path):
         try:
-            return "create"    
+            self.partner.insert(name, slug, active, spread_sheet_path, image_path)
         
         except:
-            print("Unexpected error:", sys.exc_info()[0])
             raise
-            
-        finally:
-            return    
 
     #-----------------------------------------------------------------
 
-    def update(self):
+    def update(self, name, slug, active, spread_sheet_path, image_path):
         try:
-            return "update"    
+            self.partner.update(name, slug, active, spread_sheet_path, image_path)
         
         except:
-            print("Unexpected error:", sys.exc_info()[0])
             raise
             
-        finally:
-            return    
-
     #-----------------------------------------------------------------
 
-    def delete(self):
+    def delete(self, name):
         try:
-            return "delete"    
+            self.partner.delete(name)
+            return
         
         except:
-            print("Unexpected error:", sys.exc_info()[0])
             raise
-            
-        finally:
-            return    
-        
+                    

@@ -1,4 +1,4 @@
 {
     "port": "7000",
-    "database_file": "?",
+    "database_file": "model/data/partners.db"
 }

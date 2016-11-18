@@ -1,16 +1,20 @@
 import sqlite3 as sql
+import json
 
 from flask import g
 
 class ADO():
 	
-	_database = None;
+	_database = None
+	_config = None
 	
-	DATABASE = r'model/data/partners.db'
-	SCHEMA = r'model/schema/partners.sql'
-
+	#--------------------------------------------------------------------------
+	
 	def __init__(self, app):
 		try:
+			with open('config.json', 'r') as f:
+				_config = json.load(f)
+			
 			self.__init_db__(app)
 
 		except sql.Error, e:
@@ -20,14 +24,11 @@ class ADO():
 		finally:
 			return	
 	
+	#--------------------------------------------------------------------------
+	
 	def __init_db__(self, app):
 		try:
 			db = self.__get_db__()
-			
-			with app.app_context():
-				with app.open_resource(self.SCHEMA, mode='r') as f:
-					db.cursor().executescript(f.read())
-				db.commit()
 
 		except sql.Error, e:
 			print "Error: %s" % e.args[0]
@@ -35,12 +36,15 @@ class ADO():
 		
 		finally:
 			return	
+	
+	#--------------------------------------------------------------------------
 		
 	def __get_db__(self):
 		try:
 			db = ADO._database
 			if db is None:
-				db = ADO._database = sql.connect(self.DATABASE)
+				db = ADO._database = sql.connect(self._config.get("partner_database_file"))
+				
 			return db
 
 		except sql.Error, e:
@@ -50,7 +54,7 @@ class ADO():
 		finally:
 			return	
 
-	##########################################################################
+	#--------------------------------------------------------------------------
 			
 	def close_connection(self, exception):
 		try:
@@ -65,7 +69,7 @@ class ADO():
 		finally:
 			return	
 
-	##########################################################################
+	#--------------------------------------------------------------------------
 
 	def __query_db__(self, query, args=(), one=False):
 		try:
@@ -80,6 +84,8 @@ class ADO():
 			
 		finally:
 			return	
+		
+	#--------------------------------------------------------------------------
 			
 	def getAll(self):
 		try:		
@@ -93,6 +99,8 @@ class ADO():
 		finally:
 			return	
 
+	#--------------------------------------------------------------------------
+	
 	def queryByName(self, name):
 		try:
 			partner = self.__query_db__('select * from partners where name = ?',
@@ -112,7 +120,7 @@ class ADO():
 		finally:
 			return	
 
-	##########################################################################
+	#--------------------------------------------------------------------------
 	
 	def __exec_db__(self, query, args=()):
 		try:
@@ -125,6 +133,8 @@ class ADO():
 			
 		finally:
 			return	
+	
+	#--------------------------------------------------------------------------
 	
 	def createPartner(self, name, slug, spx_path, img_path):
 		try:
@@ -141,6 +151,8 @@ class ADO():
 		finally:
 			return	
 			
+	#--------------------------------------------------------------------------
+			
 	def updatePartner(self, name, slug, spx_path, img_path):
 		self.__exec_db__(
 			"""UPDATE partners 
@@ -149,6 +161,8 @@ class ADO():
 		                [name, slug, spx_path, img_path])
 		
 		return        
+			
+	#--------------------------------------------------------------------------
 			
 	def deletePartner(self, name):
 		try:

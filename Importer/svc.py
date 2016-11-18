@@ -1,16 +1,27 @@
-from flask import Flask
+import sys
+import json
+ 
+from flask import Flask, jsonify
 from flask import request
 from flask import Response
 from flask import render_template
 
-import sys
-
 from handler import ProcessRequest
 from ado import ADO 
 
-#################################################################
+from playhouse.shortcuts import model_to_dict, dict_to_model
 
-app = Flask(__name__)
+from common.enums import *
+from common.constants import *
+
+from common.errors import *
+
+
+#===============================================================
+# Global Variables Initialization
+#===============================================================
+
+app = Flask(__name__, static_folder='static', static_url_path='')
 dao = ADO(app);
 
 #################################################################
@@ -21,8 +32,23 @@ def index():
 
 #-----------------------------------------------------------------
 
-@app.route('/create/<name>/<slug>/<spread_sheet_path>/<image_path>', methods=['GET', 'POST'])
-def create(name, slug=None, spread_sheet_path=None, image_path=None):
+@app.route('/read/<name>')
+def read(name):
+    try:
+        resp = ProcessRequest().read(name)
+        resp = json.dumps(model_to_dict(resp))
+        
+        resp = Response(resp, status=HttpStatus.OK, mimetype='application/json')
+        return resp
+        
+    except:
+        return returnInternalError();        
+         
+
+#-----------------------------------------------------------------
+
+@app.route('/create/<name>/<slug>/<active>/<spread_sheet_path>/<image_path>', methods=['GET', 'POST'])
+def create(name, slug=None, active=True, spread_sheet_path=None, image_path=None):
     try:
     #     if request.method == 'POST':
     #         do_the_login()
@@ -31,65 +57,37 @@ def create(name, slug=None, spread_sheet_path=None, image_path=None):
                         
     #     ado.create();
                     
-        ProcessRequest().create()
-        resp = Response('Error', status=503, mimetype='text/html')
-        return resp;        
+        ProcessRequest().create(name, slug, active, spread_sheet_path, image_path)
+        return returnSuccess();        
 
     except:
-        print("Unexpected error:", sys.exc_info()[0])
+        return returnInternalError();        
         raise
         
-    finally:
-        return    
-
 #-----------------------------------------------------------------
 
-@app.route('/update/<name>/<slug>/<spread_sheet_path>/<image_path>', methods=['GET'])
-def update(name, slug, spread_sheet_path, image_path):
+@app.route('/update/<name>/<slug>/<active>/<spread_sheet_path>/<image_path>', methods=['GET'])
+def update(name, slug, active, spread_sheet_path, image_path):
     try:
-        ProcessRequest().update()
-        resp = Response('Error', status=503, mimetype='text/html')
-        return resp;        
+        ProcessRequest().update(name, slug, active, spread_sheet_path, image_path)
+        return returnSuccess();        
 
     except:
-        print("Unexpected error:", sys.exc_info()[0])
+        return returnInternalError();        
         raise
         
-    finally:
-        return    
-
 #-----------------------------------------------------------------
 
 @app.route('/delete/<name>', methods=['GET'])
 def delete(name):
     try:
-        ProcessRequest().delete()
-        resp = Response('Error', status=503, mimetype='text/html')
-        return resp;        
+        ProcessRequest().delete(name)        
+        return returnSuccess();        
 
     except:
-        print("Unexpected error:", sys.exc_info()[0])
+        return returnInternalError();        
         raise
         
-    finally:
-        return    
-
-#-----------------------------------------------------------------
-
-@app.route('/read')
-def read():
-    try:
-        ProcessRequest().read()
-        resp = Response('Error', status=503, mimetype='text/html')
-        return resp;        
-
-    except:
-        print("Unexpected error:", sys.exc_info()[0])
-        raise
-        
-    finally:
-        return    
-
 
 #############################################################
 
