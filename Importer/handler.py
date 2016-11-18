@@ -4,7 +4,7 @@ from model.entities.partnerEntity import *
 class ProcessRequest():
     partner = PartnerRepo();
     
-    def __init__(self):
+    def __init__(self): 
         return
     
     #-----------------------------------------------------------------
