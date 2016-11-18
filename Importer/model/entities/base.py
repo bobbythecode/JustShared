@@ -3,10 +3,9 @@ import json
 from peewee import *
 from playhouse.sqlite_ext import SqliteExtDatabase
 
-with open('config.json', 'r') as f:
-    config = json.load(f)
+from common.config import *
 
-db = SqliteExtDatabase(config.get("database_file"))
+db = SqliteExtDatabase(getConfig().get("database_file"))
 
 class BaseModel(Model):
     class Meta:

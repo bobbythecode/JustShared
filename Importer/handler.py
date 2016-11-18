@@ -11,13 +11,22 @@ class ProcessRequest():
     
     def read(self, name):
         try:
-            f = self.partner.read(name)            
-            return f
+            partner = self.partner.read(name)            
+            return partner
          
         except:
             raise
              
-
+    #-----------------------------------------------------------------
+    
+    def readAll(self):
+        try:
+            partners = self.partner.readAll()            
+            return partners
+         
+        except:
+            raise
+             
     #-----------------------------------------------------------------
         
     def create(self, name, slug, active, spread_sheet_path, image_path):

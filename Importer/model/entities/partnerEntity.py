@@ -94,3 +94,11 @@ class PartnerRepo():
             else: 
                 raise    
             
+    def readAll(self):
+        try:
+            partners = Partner.get(Partner.id > 0)        
+            return partners;
+        
+        except Exception as e:
+            raise    
+                        

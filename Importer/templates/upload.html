@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
+          rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h3 class="text-muted"></h3>
+      </div>
+      <hr/>
+      <div>
+      
+      <form action="upload" method="post" enctype="multipart/form-data">
+        <input type="text" name="name"><br /><br />
+        <input type="text" name="slug"><br /><br />
+        
+        <p>
+			<input type="radio" name="active" id="option1" value="True">Yes</input><br>
+			<input type="radio" name="active"" id="option2" value="False">No</input><br>
+		</p>
+		
+        <input type="file" name="file"><br /><br />
+        <input type="submit" value="Submit">
+      </form>
+      </div>
+    </div>
+  </body>
+</html>

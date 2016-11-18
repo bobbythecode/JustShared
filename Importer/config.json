@@ -1,4 +1,7 @@
 {
     "port": 8000,
-    "database_file": "model/data/partners.db"
+    "database_file": "model/data/partners.db",
+    "uploads": "uploads/",
+    "file_types": "[{\"ext\": \"csv\",\"path\":\"spreadsheets\",\"type\":\"sheet\"},{\"ext\":\"xls\",\"path\":\"spreadsheets\",\"type\":\"sheet\"},{\"ext\":\"png\",\"path\":\"images\",\"type\":\"image\"},{\"ext\":\"png\",\"path\":\"images\",\"type\":\"image\"},{\"ext\":\"jpg\",\"path\":\"images\",\"type\":\"image\"},{\"ext\":\"jpeg\",\"path\":\"images\",\"type\":\"image\"},{\"ext\":\"gif\",\"path\":\"images\",\"type\":\"image\"}]" 
+    
 }
