@@ -7,7 +7,6 @@ from flask import Response
 from flask import render_template
 
 from handler import ProcessRequest
-from ado import ADO 
 
 from playhouse.shortcuts import model_to_dict, dict_to_model
 
@@ -21,8 +20,10 @@ from common.errors import *
 # Global Variables Initialization
 #===============================================================
 
+with open('config.json', 'r') as f:
+    config = json.load(f)
+
 app = Flask(__name__, static_folder='static', static_url_path='')
-dao = ADO(app);
 
 #################################################################
 
@@ -57,7 +58,9 @@ def create(name, slug=None, active=True, spread_sheet_path=None, image_path=None
                         
     #     ado.create();
                     
+        active = active == 'True'            
         ProcessRequest().create(name, slug, active, spread_sheet_path, image_path)
+        
         return returnSuccess();        
 
     except:
@@ -69,7 +72,9 @@ def create(name, slug=None, active=True, spread_sheet_path=None, image_path=None
 @app.route('/update/<name>/<slug>/<active>/<spread_sheet_path>/<image_path>', methods=['GET'])
 def update(name, slug, active, spread_sheet_path, image_path):
     try:
+        active = active == 'True'            
         ProcessRequest().update(name, slug, active, spread_sheet_path, image_path)
+
         return returnSuccess();        
 
     except:
@@ -99,6 +104,6 @@ def page_not_found(error):
 #############################################################
 
 if __name__ == '__main__':
-    app.run(port=7000)
+    app.run(host="0.0.0.0", port=config.get("port"), debug=True)
     
     

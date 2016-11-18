@@ -27,8 +27,15 @@ class PartnerRepo():
     #         if e is not None:
     #             raise DuplicatedError("The partner name ", name, " duplicated")
     
-            partner = Partner.create(name=name, slug=slug, spread_sheet_path=spread_sheet_path, image_path=image_path)
+            partner = Partner.create(
+                name=name, 
+                slug=slug,
+                active= active, 
+                spread_sheet_path=spread_sheet_path, 
+                img_path=image_path)
+            
             partner.save()
+            return
 
         except IntegrityError as e:
             raise DuplicatedError("The partner name ", name, " duplicated")
@@ -41,12 +48,13 @@ class PartnerRepo():
             if partner is None:
                 raise NotFoundError("The partner name ", name, " not found")
     
-            partner.slug = 'bar'
-            partner.active = active
-            partner.spread_sheet_path = 'bar'
-            partner.image_path = 'bar'
+            partner.slug = slug
+            partner.active = bool(active)
+            partner.spread_sheet_path = spread_sheet_path
+            partner.img_path = image_path
 
             partner.save()
+            return
 
         except:
             raise    
@@ -55,14 +63,22 @@ class PartnerRepo():
     
     def delete(self, name):
         try:
-            partner = self.read(name);
+            partner = Partner.get(Partner.name == name)
             if partner is None:
                 raise NotFoundError("The partner name ", name, " not found")
             
-            partner.delete_instance()();
-    #         e.save()
+            partner.delete_instance();
+            partner.save()
+            return
+        
         except:
             raise    
+
+
+    def deleteAll(self):
+        partner = Partner.delete().where(Partner.id > 0)
+        partner.execute()
+        return
 
     #-------------------------------------------------------------------------------------
     
