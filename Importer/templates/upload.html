@@ -13,12 +13,18 @@
       <div>
       
       <form action="upload" method="post" enctype="multipart/form-data">
-        <input type="text" name="name"><br /><br />
-        <input type="text" name="slug"><br /><br />
+        <input type="text" name="name" value="{{partner.name}}"><br /><br />
+        <input type="text" name="slug" value="{{partner.slug}}"><br /><br />
         
         <p>
-			<input type="radio" name="active" id="option1" value="True">Yes</input><br>
-			<input type="radio" name="active"" id="option2" value="False">No</input><br>
+			<input type="radio" name="active" id="option1" value="True" 
+				{% if partner and partner.active == True %}checked{% endif %}>
+				Yes
+			</input><br>
+			<input type="radio" name="active"" id="option2" value="False" 
+				{% if partner and partner.active == False %}checked{% endif %} >
+				No
+			</input><br>
 		</p>
 		
         <input type="file" name="file"><br /><br />

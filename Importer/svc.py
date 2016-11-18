@@ -22,6 +22,7 @@ from common.constants import *
 
 from common.errors import *
 
+from model.entities.partnerEntity import *
 
 #===============================================================
 # Global Variables Initialization
@@ -35,7 +36,8 @@ setUploadConfigs(app)
 
 @app.route('/')
 def index():
-    return 'Services avialable'
+#     return 'Services avialable'
+    return redirect(url_for('view'))
 
 #-----------------------------------------------------------------
 
@@ -101,14 +103,27 @@ def delete(name):
 
 #-----------------------------------------------------------------
 
-@app.route('/retrieve', methods=['GET'])
-def retrieve():
+@app.route('/view', methods=['GET'])
+def view():
     try:
-        partners = ProcessRequest().readAll()        
-        l = {"name": "aaaa", "slug": "bbb", "active": "True", "sheet": "?", "image": "?"}
-        l2 = []
-        l2.append(partners)
-        return render_template('viewall.html', list=l2)
+        partners = ProcessRequest().readAll()                
+        return render_template('viewall.html', list=partners)
+
+    except NotFoundError as e:
+        return redirect(url_for('upload'))
+
+    except:
+        return returnInternalError();        
+        raise
+
+@app.route('/edit/<name>', methods=['GET'])
+def edit(name):
+    try:
+        partner = ProcessRequest().read(name)                
+        return render_template('upload.html', partner=partner)
+
+    except NotFoundError as e:
+        return redirect(url_for('upload'))
 
     except:
         return returnInternalError();        
@@ -117,19 +132,26 @@ def retrieve():
 #-----------------------------------------------------------------
 
 @app.route('/upload', methods=['GET','POST'])
+@app.route('/edit/upload', methods=['POST'])
 def upload():
     try:
         if request.method == 'POST':
             name = request.form['name']
             slug = request.form['slug']
             active = request.form['active']
+
+            active = active.lower() == 'true'            
+            spread_sheet_path = None
+            image_path = None
+            
+            redir = None
     
             file = request.files['file']
             if file.filename:        
                 if file and __allowedFile__(file.filename):
                     filename = secure_filename(file.filename)
                     
-                    path = getFolderType(app, filename);
+                    path = getFolderExt(app, filename);
                     tmp = os.path.join(app.config['UPLOAD_FOLDER'], path)
                     if not os.path.isdir(tmp):
                         os.makedirs(tmp)
@@ -137,18 +159,29 @@ def upload():
                     file.save(os.path.join(app.config['UPLOAD_FOLDER'], path, filename))
                     
                     redir = path + "/" + filename
-                    return redirect(url_for('viewUploadedFile', filename=redir))
-        
-            active = active.lower() == 'true'            
-            spread_sheet_path = None
-            image_path = None
+                    
+                    t = getFolderType(app, filename);
+                    if t == 'sheet':
+                        spread_sheet_path = redir;
+                        
+                    elif t == 'image':
+                        image_path = redir     
+                    
             
             ProcessRequest().create(name, slug, active, spread_sheet_path, image_path)
-        
+            
+            if redir:
+                return redirect(url_for('viewUploadedFile', filename=redir))
+            
             return redirect(url_for('index'))
         
-        else:
-            return render_template('upload.html')
+        
+        else:            
+            partner = Partner()
+            partner.name = ''
+            partner.slug = ''
+            return render_template('upload.html', partner=partner)
+
 
     except:
         return returnInternalError();        

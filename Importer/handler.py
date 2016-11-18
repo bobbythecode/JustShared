@@ -31,7 +31,12 @@ class ProcessRequest():
         
     def create(self, name, slug, active, spread_sheet_path, image_path):
         try:
-            self.partner.insert(name, slug, active, spread_sheet_path, image_path)
+            found = self.partner.isExisted(name)
+            if found is False:
+                self.partner.insert(name, slug, active, spread_sheet_path, image_path)
+            
+            else:     
+                self.partner.update(name, slug, active, spread_sheet_path, image_path)
         
         except:
             raise

@@ -96,9 +96,20 @@ class PartnerRepo():
             
     def readAll(self):
         try:
-            partners = Partner.get(Partner.id > 0)        
+            partners = Partner.select()       
             return partners;
         
         except Exception as e:
-            raise    
+            if type(e).__eq__("PartnerDoesNotExist"):
+                raise NotFoundError("The data not found")
+            
+            else: 
+                raise    
+            
+    def isExisted(self, name):
+        try:
+            partner = Partner.select().where(Partner.name == name)    
+            return partner.exists()    
                         
+        except:
+            raise            
