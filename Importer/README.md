@@ -28,6 +28,7 @@ There abilities as:
 ```
 http://localhost:8000/
 ```
+![Alt text](/relative/path/to/img.jpg?raw=true "Optional Title")
 
 * Add patner
 
@@ -35,7 +36,7 @@ http://localhost:8000/
 http://localhost:8000/update-partner
 ```
 
-### Web Service APIs
+### RestFUL Web Service APIs
 * Read
 ```
 http://localhost:8000/read/<name>
