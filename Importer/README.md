@@ -45,6 +45,7 @@ http://localhost:8000/update-partner
 ```
 http://localhost:8000/read/<name>
 ```
+![Alt text](https://github.com/samat/JustShared/blob/master/Importer/demo/svc-read.png "Optional Title")
 
 * Create
 ```
