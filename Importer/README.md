@@ -28,7 +28,21 @@ The below are the abilities of the system
 * ORM by Weepee
 
 ## Usage
+### For the new installation
+```
+python create_partner_db.py
+```
+### For the tests
+```
+python svcTestCase.py
+```
+
 ### For users
+To run the system
+```
+python svc.py
+```
+
 * View all
 
 ```
