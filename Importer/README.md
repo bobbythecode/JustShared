@@ -50,7 +50,7 @@ http://localhost:8000/
 ```
 ![Alt text](https://github.com/samat/JustShared/blob/master/Importer/demo/view.png "Optional Title")
 
-* Add patner
+* Add partner
 ```
 http://localhost:8000/update-partner
 ```
