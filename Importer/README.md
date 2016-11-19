@@ -28,7 +28,7 @@ There abilities as:
 ```
 http://localhost:8000/
 ```
-![Alt text](/relative/path/to/img.jpg?raw=true "Optional Title")
+![Alt text](https://github.com/samat/JustShared/blob/master/Importer/demo/view.png "Optional Title")
 
 * Add patner
 
