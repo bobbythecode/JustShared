@@ -22,5 +22,19 @@ There abilities as:
 * ORM by Weepee
 
 ## Usage
+### For users
+* View all
+
+```
+http://localhost:8000/
+```
+
+* Add patner
+
+```
+http://localhost:8000/update-partner
+```
+
+### Web Service APIs
 
 
