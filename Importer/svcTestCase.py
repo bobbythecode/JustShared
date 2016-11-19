@@ -109,6 +109,8 @@ class SvcTestCase(unittest.TestCase):
                         
         self.assertEqual(partner.exists(), True)
                 
+    #-------------------------------------------------------------------------------
+
     def test_serviceUpdate(self):
         name = 'Albert'
         slug = 'Foo'
