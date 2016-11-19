@@ -1,14 +1,17 @@
 import os
 from common.config import *
-                     
-def assignTypes(app):
+
+def getTypes(app):
     fs = getConfig().get("file_types")
     ts = json.loads(fs)
     typeSet = []
     for t in ts:
         typeSet.append(t["ext"])
         
-    app.config['ALLOWED_EXTENSIONS'] = typeSet
+    return typeSet   
+                     
+def assignTypes(app):
+    app.config['ALLOWED_EXTENSIONS'] = getTypes(app)
     return    
 
 def getFolderExt(app, filename):

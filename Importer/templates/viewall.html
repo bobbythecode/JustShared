@@ -1,31 +1,120 @@
-{% if list %}	
-	<table>
-	  <thead>
-	    <th>Name</th>
-	    <th>Slug</th>
-	    <th>Active</th>
-	    <th>Sheet</th>
-	    <th>Image</th>
-	    <th></th>
-	    <th></th>
-	  </thead>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>File Importer</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<style>
+	.btn-s1 {
+		width: 120px;
+	}
+	.label-s1 {
+		margin-left: 16px; 
+		font-weight: normal;
+	}
+	.label-s2 {
+		margin-right: 5px; 
+	}
+	.image-s1 {
+		width: 100%;
+		height: 100%;
+	}
+	.active {
+		margin-left: 16px;
+	}
+	.thumbnail {
+		width: 50px;
+		height: 56px;
+	}
+	.green {
+		color: green;
+	}
+	.red {
+		color: red;
+	}
+	.orange {
+		color: orange;
+	}
+	.gray {
+		color: #ccc;
+	}
+</style>
+<body>
+	<div class="container">
+	  	<h2>Partner Asset List</h2>
+	  	<p>These are all of the partners with asset files</p>
 	
-	  <tbody>      
-		{% for r in list %}
-		    <tr>
-		      <td>{{ r.name }}</td>
-		      <td>{{ r.slug }}</td>
-		      <td>{{ r.active }}</td>
-		      <td>{{ r.spread_sheet_path }}</td>
-		      <td>{{ r.img_path }}</td>
-		      <td><a href="/edit/{{ r.name }}">Edit</a></td>
-		      <td><a href="/delete/{{ r.name }}">Delete</a></td>
-		    </tr>
-		{% endfor %}
-	  </tbody>
-	</table> 
-{% endif %}
-
-<p>
-	<a href="/upload" class="btn btn-default">Add</a>
-</p>
+		<hr/>
+		
+		{% if list %}	
+			<table class="table table-hover">
+			  <thead>
+			    <th><i class="fa fa-user label-s2 gray" aria-hidden="true"></i>Name</th>
+			    <th>Slug</th>
+			    <th>Active</th>
+			    <th>Sheet</th>
+			    <th>Image</th>
+			    <th></th>
+			    <th></th>
+			  </thead>
+			
+			  <tbody>      
+				{% for r in list %}
+				    <tr>
+				      <td>{{ r.name }}</td>
+				      <td>{{ r.slug }}</td>
+				      <td>
+				      	{% if r.active == True %}
+				      		<i class="fa fa-check active green" aria-hidden="true"></i>
+				      	{% else %}	
+				      		<i class="fa fa-ban active red" aria-hidden="true"></i>
+				      	{% endif %}	
+				      </td>
+				      <td>
+				      	{% if r.spread_sheet_path %}				      		
+							<a href="{{root}}{{ r.spread_sheet_path }}">
+								<i class="fa fa-file-excel-o .label-s2" aria-hidden="true"></i>
+								{{ r.spread_sheet_path.split('/')[-1] }}
+							</a>				      					      		
+				      	{% else %}
+				      		<label class="label-s1">-</label>	
+				      	{% endif %}
+				      </td>
+				      <td>
+				      	{% if r.img_path %}
+							<a href="{{root}}{{ r.img_path }}" class="thumbnail">
+								<img class="image-s1" src="{{root}}{{ r.img_path }}" alt="{{ r.img_path }}">
+							</a>				      					      		
+				      	{% else %}
+				      		<label class="label-s1">-</label>	
+				      	{% endif %}				      	
+				      </td>
+				      <td>				      	
+				      	<a href="/edit/{{ r.name }}">
+				      		<i class="fa fa-pencil-square-o label-s2" aria-hidden="true"></i>Edit
+				      	</a>
+				      </td>
+				      <td>				      	
+				      	<a href="/delete/{{ r.name }}">
+				      		<i class="fa fa-scissors label-s2 red" aria-hidden="true"></i>Delete
+				      	</a>
+				      </td>
+				    </tr>
+				{% endfor %}
+			  </tbody>
+			</table> 
+		{% endif %}	
+	<p>
+		<a href="/upload" 
+			class="btn btn-primary btn-s1" 
+			role="button" 
+			data-toggle="tooltip" 
+			title="Add another partner">Add</a>		
+	</p>
+</body>
+</html>

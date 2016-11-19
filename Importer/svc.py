@@ -38,6 +38,7 @@ setUploadConfigs(app)
 def index():
 #     return 'Services avialable'
     return redirect(url_for('view'))
+#     return render_template('foo.html')
 
 #-----------------------------------------------------------------
 
@@ -107,7 +108,7 @@ def delete(name):
 def view():
     try:
         partners = ProcessRequest().readAll()                
-        return render_template('viewall.html', list=partners)
+        return render_template('viewall.html', root=app.config['UPLOAD_FOLDER'], list=partners)
 
     except NotFoundError as e:
         return redirect(url_for('upload'))
@@ -119,8 +120,9 @@ def view():
 @app.route('/edit/<name>', methods=['GET'])
 def edit(name):
     try:
+        typeSet = getTypes(app);
         partner = ProcessRequest().read(name)                
-        return render_template('upload.html', partner=partner)
+        return render_template('upload.html', partner=partner, typeSet=typeSet)
 
     except NotFoundError as e:
         return redirect(url_for('upload'))
@@ -177,10 +179,12 @@ def upload():
         
         
         else:            
+            typeSet = getTypes(app);
+            
             partner = Partner()
             partner.name = ''
             partner.slug = ''
-            return render_template('upload.html', partner=partner)
+            return render_template('upload.html', partner=partner, typeSet=typeSet)
 
 
     except:

@@ -48,10 +48,14 @@ class PartnerRepo():
             if partner is None:
                 raise NotFoundError("The partner name ", name, " not found")
     
-            partner.slug = slug
+            partner.slug = slug                
             partner.active = bool(active)
-            partner.spread_sheet_path = spread_sheet_path
-            partner.img_path = image_path
+                
+            if spread_sheet_path:    
+                partner.spread_sheet_path = spread_sheet_path
+                
+            if image_path:    
+                partner.img_path = image_path
 
             partner.save()
             return

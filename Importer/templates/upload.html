@@ -1,34 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
-          rel="stylesheet">
+  <title>File Importer</title>
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
+  <style>
+  	.panel-s1 {
+  		max-width: 50%;
+  		min-width: 400px;
+	
+		margin-left: 50px;  		
+  		float: left;
+  	}
+  	.label-s1 {
+	    font-size: 15px;
+	    font-weight: bold;  	
+	}
+  </style>
   <body>
-    <div class="container">
-      <div class="header">
-        <h3 class="text-muted"></h3>
-      </div>
+    <div class="container panel-s1">
+	  <h2>Partner Asset Importer Form</h2>
+	  <p>Please type your information below with asset files as spread sheet or image.</p>
       <hr/>
-      <div>
-      
+      <div>      
       <form action="upload" method="post" enctype="multipart/form-data">
-        <input type="text" name="name" value="{{partner.name}}"><br /><br />
-        <input type="text" name="slug" value="{{partner.slug}}"><br /><br />
-        
-        <p>
-			<input type="radio" name="active" id="option1" value="True" 
-				{% if partner and partner.active == True %}checked{% endif %}>
-				Yes
-			</input><br>
-			<input type="radio" name="active"" id="option2" value="False" 
-				{% if partner and partner.active == False %}checked{% endif %} >
-				No
-			</input><br>
-		</p>
+		<div class="form-group">
+		   	<label for="name">Name</label>
+		   	<input id="name" type="text" class="form-control" name="name" value="{{partner.name}}" placeholder="Please type your text" />
+		</div>		 	              
+		<div class="form-group">
+			<label for="slug">Slug</label>
+        	<input id="slug" type="text" class="form-control" name="slug" value="{{partner.slug}}" placeholder="Please type your text" />
+		   	<small id="emailHelp" class="form-text text-muted">Please type your necessary information here.</small>
+		</div>
+		<br/>
+		<fieldset class="form-group">
+			<legend class="label-s1">Active</legend>
+			<div class="form-check">
+			  <label class="form-check-label">
+				<input type="radio" class="form-check-input" name="active" id="option1" value="True" 
+					{% if partner and partner.active == True %}checked{% endif %}>
+					Yes
+				</input>			    
+			  </label>
+			</div>			
+			<div class="form-check">
+			<label class="form-check-label">
+				<input type="radio" class="form-check-input" name="active"" id="option2" value="False" 
+					{% if partner and partner.active == False %}checked{% endif %} >
+					No
+				</input>			
+			</label>
+			</div>
+		</fieldset>
+		<br/>
+		<div class="form-group">
+		    <label for="file">File Asset</label>
+        	<input id="file" type="file" class="form-control-file inputfile" name="file"/>
+		    <small id="fileHelp1" class="form-text text-muted">The accepted extensions: {{ ', '.join(typeSet) }}</small><br/>
+		    <small id="fileHelp2" class="form-text text-muted"><i>*** Please note that the accepted extensions and their location can be assigned in the config.json file.</i></small>
+		</div>
 		
-        <input type="file" name="file"><br /><br />
-        <input type="submit" value="Submit">
+		<br/><br/>       
+        <button type="submit" class="btn btn-primary">Submit</button>	
       </form>
       </div>
     </div>
