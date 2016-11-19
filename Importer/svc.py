@@ -56,13 +56,6 @@ def read(name):
 @app.route('/create/<name>/<slug>/<active>/<path:spread_sheet_path>/<path:image_path>', methods=['GET', 'POST'])
 def create(name, slug=None, active=True, spread_sheet_path=None, image_path=None):
     try:
-    #     if request.method == 'POST':
-    #         do_the_login()
-    #     else:
-    #         show_the_login_form()
-                        
-    #     ado.create();
-                    
         active = active == 'True'            
         ProcessRequest().create(name, slug, active, spread_sheet_path, image_path)
         
@@ -107,7 +100,7 @@ def view():
         return render_template('view-all.html', root='update-partner/', list=partners)    
 
     except NotFoundError as e:
-        return redirect(url_for('upload'))
+        return redirect(url_for('updatePartner'))
 
     except:
         return returnInternalError();        
@@ -121,7 +114,7 @@ def edit(name):
         return render_template('update-form.html', partner=partner, typeSet=typeSet)
 
     except NotFoundError as e:
-        return redirect(url_for('upload'))
+        return redirect(url_for('updatePartner'))
 
     except:
         return returnInternalError();        
