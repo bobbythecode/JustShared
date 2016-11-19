@@ -1,6 +1,6 @@
 # The Importer
 ## Features
-There abilities as:
+The below are the abilities of the system
 
 * Add partner with asset files.
 * View all partners
