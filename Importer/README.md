@@ -31,6 +31,10 @@ http://localhost:8000/
 ![Alt text](https://github.com/samat/JustShared/blob/master/Importer/demo/view.png "Optional Title")
 
 * Add patner
+```
+http://localhost:8000/update-partner
+```
+![Alt text](https://github.com/samat/JustShared/blob/master/Importer/demo/create.png "Optional Title")
 
 ```
 http://localhost:8000/update-partner
