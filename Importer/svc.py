@@ -34,9 +34,7 @@ setUploadConfigs(app)
 
 @app.route('/')
 def index():
-#     return 'Services avialable'
     return redirect(url_for('view'))
-#     return render_template('foo.html')
 
 #-----------------------------------------------------------------
 
