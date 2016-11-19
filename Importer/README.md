@@ -6,7 +6,13 @@ There abilities as:
 * View all partners
 * Delete partner
 * Update partner
-* Configurable with config.json file
+* Configurable with config.json
+** Set service port number
+** Set upload folder
+** Set type of the allowed
+*** Type of extension
+*** Target folder of the extension
+*** Type of sheet
 
 ## Implementation
 
