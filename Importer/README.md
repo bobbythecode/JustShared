@@ -10,9 +10,9 @@ There abilities as:
 ** Set service port number
 ** Set upload folder
 ** Set type of the allowed
-*** Type of extension
-*** Target folder of the extension
-*** Type of sheet
+1) Type of extension
+2) Target folder of the extension
+3) Type of sheet
 
 ## Implementation
 
